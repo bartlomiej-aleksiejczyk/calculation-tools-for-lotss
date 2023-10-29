@@ -1,13 +1,13 @@
 ### Output directory ###
 **/target/
 
-### Jar executables ###
+### Fat jar executable ###
 *jar-with-dependencies.jar
 
-# Always include maven-wrapper.jar
+### Always include maven-wrapper.jar ###
 **/!.mvn/wrapper/maven-wrapper.jar
 
-# Ignore target directories inside any src/main or src/test folder
+### Ignore target directories inside any src/main or src/test folder ###
 **/src/main/**/target/
 **/src/test/**/target/
 
