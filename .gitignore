@@ -1,5 +1,8 @@
-# This will ignore the target directory in the same directory as .gitignore
+### Output directory ###
 **/target/
+
+### Jar executables ###
+*jar-with-dependencies.jar
 
 # Always include maven-wrapper.jar
 **/!.mvn/wrapper/maven-wrapper.jar
