@@ -4,6 +4,10 @@
 ### Gradle ###
 **/.gradle/*
 
+### Fits files ###
+*.fits
+
+
 ### Output directory ###
 **/target/
 
