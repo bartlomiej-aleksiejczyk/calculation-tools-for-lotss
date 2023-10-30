@@ -1,6 +1,9 @@
 ### CSV files ###
 *.csv
 
+### Gradle ###
+**/.gradle/*
+
 ### Output directory ###
 **/target/
 
