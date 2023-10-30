@@ -5,9 +5,9 @@ package pl.edu.uwm.student.aleksiejczyk.bartlomiej;
 public class Main {
     public static void main(String[] args) {
         if (SchemaValidator.validateXMLAgainstXSDSchema()) {
-            System.out.println("Your XML file is valid against schema.");
+            System.out.println("Your XML file is valid against the schema.");
         } else {
-            System.out.println("Your XML file is NOT valid against schema!");
+            System.out.println("Your XML file is NOT valid against the schema!");
         }
     }
 }

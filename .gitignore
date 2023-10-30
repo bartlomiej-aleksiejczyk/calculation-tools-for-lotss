@@ -13,7 +13,8 @@
 
 ### IntelliJ IDEA ###
 **/.idea
-
+**/.idea/*
+**/.idea/**
 ### Eclipse ###
 **/.apt_generated
 **/.classpath

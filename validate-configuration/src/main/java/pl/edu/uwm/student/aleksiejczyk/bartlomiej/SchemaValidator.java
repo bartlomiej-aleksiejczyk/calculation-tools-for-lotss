@@ -1,5 +1,7 @@
 package pl.edu.uwm.student.aleksiejczyk.bartlomiej;
 
+import pl.edu.uwm.student.aleksiejczyk.bartlomiej.toollib.directory.DirectoryTools;
+
 import javax.xml.XMLConstants;
 import javax.xml.transform.stream.StreamSource;
 import javax.xml.validation.Schema;
@@ -14,7 +16,7 @@ public class SchemaValidator {
     public static Boolean validateXMLAgainstXSDSchema() {
         try {
             File schemaFile = new File(SCHEMA_FILE_PATH);
-            File configurationFile = new File(new File("").getAbsoluteFile().getParentFile(), CONFIG_FILE_NAME);
+            File configurationFile = new File(DirectoryTools.getParentDirectory(), CONFIG_FILE_NAME);
 
             Schema schema = SchemaFactory.newInstance(XMLConstants.W3C_XML_SCHEMA_NS_URI).newSchema(schemaFile);
             Validator validator = schema.newValidator();
