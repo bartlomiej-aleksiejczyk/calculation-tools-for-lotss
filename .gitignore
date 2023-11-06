@@ -52,3 +52,6 @@
 
 ### Maven output ###
 **/maven-output.log
+
+## Not in metadata ##
+!/metadata/**

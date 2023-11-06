@@ -1,6 +1,7 @@
 library(lubridate)
 
 INPUT_FILE_NAME <- "input.csv"
+OUTPUT_FILE <- "output.csv"
 
 
 data_from_csv <- read.csv(INPUT_FILE_NAME)
@@ -14,4 +15,4 @@ convert_date_to_fractional <- function (date_time) {
 }
 
 data_from_csv$lotss_source_date <- apply(df[, "lotss_source_date"], 1, convert_date_to_fractional)
-write.csv(df, file, row.names = FALSE)
+write.csv(data_from_csv, file, row.names = FALSE)
