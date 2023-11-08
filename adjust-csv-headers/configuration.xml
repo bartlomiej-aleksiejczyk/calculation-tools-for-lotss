@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <configuration>
     <csv_input_schema>
-        <source_id>Source_Name</source_id>
-        <ra>RA</ra>
-        <ra_error>E_RA</ra_error>
-        <dec>DEC</dec>
-        <dec_error>E_DEC</dec_error>
-        <parallax>PA</parallax>
+        <Source_Name>source_id</Source_Name>
+        <RA>ra</RA>
+        <E_RA>ra_error</E_RA>
+        <DEC>dec</DEC>
+        <E_DEC>dec_error</E_DEC>
+        <PA>parallax</PA>
     </csv_input_schema>
 </configuration>

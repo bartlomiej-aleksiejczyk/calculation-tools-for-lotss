@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+    <combine_files_configuration>
+        <first_input_name>first_input.csv</first_input_name>
+        <second_input_name>second_input.csv</second_input_name>
+        <output_name>combined_output.csv</output_name>
+        <first_input_key>Mosaic_ID</first_input_key>
+        <second_input_key>mosaic_id</second_input_key>
+    </combine_files_configuration>
+</configuration>

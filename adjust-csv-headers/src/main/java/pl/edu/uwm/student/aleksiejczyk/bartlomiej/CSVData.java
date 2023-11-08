@@ -5,6 +5,7 @@ import org.apache.commons.csv.CSVParser;
 import org.apache.commons.csv.CSVPrinter;
 import org.apache.commons.csv.CSVRecord;
 import org.xml.sax.SAXException;
+import pl.edu.uwm.student.aleksiejczyk.bartlomiej.toollib.xml.XMLHeaderSchema;
 
 import javax.xml.parsers.ParserConfigurationException;
 import java.io.*;
@@ -13,6 +14,8 @@ import java.util.Map;
 public class CSVData {
     private final static String INPUT_PATH = "unconverted_input.csv";
     private final static String OUTPUT_PATH = "converted_output.csv";
+    private final static String SCHEMA_TAG_NAME = "csv_input_schema";
+
 
     public static void convertCSVHeaders() throws IOException, ParserConfigurationException, SAXException {
         Reader input = new FileReader(INPUT_PATH);
@@ -23,7 +26,7 @@ public class CSVData {
         Map<String, Integer> headers = parser.getHeaderMap();
         String[] headersList = headers.keySet().toArray(new String[0]);
 
-        Map<String, String> newHeaders = XMLHeaderSchema.readHeaders();
+        Map<String, String> newHeaders = XMLHeaderSchema.readHeaders(SCHEMA_TAG_NAME);
         newHeaders.forEach((key, value) -> System.out.println(key + " : " + value));
 
         CSVFormat csvFormatHeaders =  CSVFormat.Builder.create().setHeader(HeaderUtils.replaceKeys(headersList, newHeaders)).build();

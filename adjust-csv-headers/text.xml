@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<home>
+    <tools>
+        <drill>bosh drill</drill>
+        <hammer>smith hammer</hammer>
+        <screwdriver>philips screwdriver</screwdriver>
+    </tools>
+</home>

@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+    <file_configuration>
+        <input_name>input.csv</input_name>
+        <output_name>output.csv</output_name>
+    </file_configuration>
+    <columns_to_exclude>
+        <col1>combined_output.csv</col1>
+        <col2>second_input.csv</col2>
+        <col3>Mosaic_ID</col3>
+        <col4>mosaic_id</col4>
+    </columns_to_exclude>
+</configuration>

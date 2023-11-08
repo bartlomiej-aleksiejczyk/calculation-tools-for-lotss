@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+    <fractional_date_configuration>
+        <input_name>input.csv</input_name>
+        <output_name>output.csv</output_name>
+        <date_column_name>date</date_column_name>
+        <date_fractional_column_name>date_fractional</date_fractional_column_name>
+    </fractional_date_configuration>
+</configuration>

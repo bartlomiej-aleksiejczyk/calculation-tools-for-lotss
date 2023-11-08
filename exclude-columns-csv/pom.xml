@@ -5,14 +5,14 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>pl.edu.uwm.student.aleksiejczyk.bartlomiej</groupId>
-    <artifactId>adjust-csv-headers</artifactId>
+    <artifactId>exclude-columns-csv</artifactId>
     <version>1.0-SNAPSHOT</version>
 
     <dependencies>
         <dependency>
-            <groupId>org.apache.commons</groupId>
-            <artifactId>commons-csv</artifactId>
-            <version>1.10.0</version>
+            <groupId>tech.tablesaw</groupId>
+            <artifactId>tablesaw-core</artifactId>
+            <version>0.43.1</version>
         </dependency>
         <dependency>
             <groupId>pl.edu.uwm.student.aleksiejczyk.bartlomiej</groupId>
@@ -20,6 +20,7 @@
             <version>1.2.0</version>
         </dependency>
     </dependencies>
+
 
     <properties>
         <maven.compiler.source>21</maven.compiler.source>
@@ -35,6 +36,12 @@
                 <version>3.0.0</version>
                 <configuration>
                     <mainClass>pl.edu.uwm.student.aleksiejczyk.bartlomiej.Main</mainClass>
+                    <arguments>
+                        <!--suppress UnresolvedMavenProperty -->
+                        <argument>${argumentA}</argument>
+                        <!--suppress UnresolvedMavenProperty -->
+                        <argument>${argumentB}</argument>
+                    </arguments>
                 </configuration>
             </plugin>
             <plugin>
@@ -75,4 +82,5 @@
             </plugin>
         </plugins>
     </build>
+
 </project>
