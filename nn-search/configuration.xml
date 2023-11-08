@@ -7,6 +7,7 @@
         <lotss_source_date>source_date</lotss_source_date>
         <lotss_ra_e>e_ra</lotss_ra_e>
         <lotss_dec_e>e_dec</lotss_dec_e>
+        <lotss_parallax>parallax</lotss_parallax>
     </lots_table_scheme>
     <gaia_table_scheme>
         <gaia_source_id>source_id</gaia_source_id>
@@ -22,5 +23,6 @@
         <input_name_gaia>input_lotss.csv</input_name_gaia>
         <output_name>output.csv</output_name>
         <if_proper_motion_correction>true</if_proper_motion_correction>
+        <use_second_version>true</use_second_version>
     </nn_config_file>
 </configuration>

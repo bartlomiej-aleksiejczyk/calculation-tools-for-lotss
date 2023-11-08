@@ -58,19 +58,21 @@ public class OpenCsv {
         ArrayList<Double> lotssSourceDate = new ArrayList<Double>();
         ArrayList<Double> lotssRaE = new ArrayList<Double>();
         ArrayList<Double> lotssDecE = new ArrayList<Double>();
+        double lotssParallax = 0;
 
         Reader input1 = new FileReader(inputNameLotss);
         Iterable<CSVRecord> records1 = CSVFormat.EXCEL.withHeader().parse(input1);
         for (CSVRecord record1 : records1) {
-
+            
             lotssSourceId.add((record1.get(lotssSchema.get("lotss_source_id"))));
             lotssRa.add(Double.valueOf(record1.get(lotssSchema.get("lotss_ra"))));
             lotssDec.add(Double.valueOf(record1.get(lotssSchema.get("lotss_dec"))));
             lotssSourceDate.add(Double.valueOf(record1.get(lotssSchema.get("lotss_source_date"))));
             lotssRaE.add(Double.valueOf(record1.get(lotssSchema.get("lotss_ra_e"))));
             lotssDecE.add(Double.valueOf(record1.get(lotssSchema.get("lotss_dec_e"))));
+            lotssParallax = Double.parseDouble(record1.get(lotssSchema.get("lotss_parallax")));
         }
         input1.close();
-        return new LotssDataFrame(lotssRa,lotssDec,lotssSourceDate,lotssSourceId, lotssRaE, lotssDecE);
+        return new LotssDataFrame(lotssRa,lotssDec,lotssSourceDate,lotssSourceId, lotssRaE, lotssDecE, lotssParallax);
     }
 }

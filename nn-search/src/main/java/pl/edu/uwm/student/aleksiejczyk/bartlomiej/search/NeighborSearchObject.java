@@ -116,6 +116,9 @@ public class NeighborSearchObject {
         return (outputArray);
     }
 
+    public double getDensity(double density){
+        return (density);
+    }
 
     public void oneCalculationCycle(int lotssNum){
         double[] gaiaPmra = gaiaDataFrame.gaiaPmra;
@@ -162,7 +165,7 @@ public class NeighborSearchObject {
 
 
         rootColumn[lotssNum] = Math.sqrt((((Math.pow((lotss_obj_ra- gaiaConvertedRa[lotssNum]),2))/12960000)/(Math.pow(lotssRaE[lotssNum],2)+Math.pow(gaiaRaEResults[lotssNum],2)))+(((Math.pow((lots_obj_dec- gaiaConvertedDec[lotssNum]),2))/12960000)/(Math.pow(lotssDecE[lotssNum],2)+Math.pow(gaiaDecEResults[lotssNum],2))));
-        rColumn[lotssNum]= Math.exp(-Math.PI*Math.pow(rootColumn[lotssNum],2)*Math.sqrt(Math.pow(lotssRaE[lotssNum],2)+Math.pow(gaiaRaEResults[lotssNum],2))*Math.sqrt(Math.pow(lotssDecE[lotssNum],2)+Math.pow(gaiaDecEResults[lotssNum],2))*lotssDensity);
+        rColumn[lotssNum]= Math.exp(-Math.PI*Math.pow(rootColumn[lotssNum],2)*Math.sqrt(Math.pow(lotssRaE[lotssNum],2)+Math.pow(gaiaRaEResults[lotssNum],2))*Math.sqrt(Math.pow(lotssDecE[lotssNum],2)+Math.pow(gaiaDecEResults[lotssNum],2))*getDensity(lotssDensity));
         latch.countDown();
     }
 
