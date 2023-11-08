@@ -1,4 +1,4 @@
-package org.example.makeMapForCalculations;
+package pl.edu.uwm.student.aleksiejczyk.bartlomiej.makeMapForCalculations;
 
 import javax.imageio.ImageIO;
 import java.awt.*;
