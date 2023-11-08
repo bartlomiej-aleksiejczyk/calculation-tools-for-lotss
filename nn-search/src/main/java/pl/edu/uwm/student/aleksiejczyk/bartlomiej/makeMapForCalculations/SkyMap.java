@@ -104,17 +104,18 @@ public class SkyMap {
         smallResultsList.add(rightSearch(pointR, pointK, newR, newK, area));
         return findBiggestRectangle(smallResultsList);
     }
-    private int[] balancedSearch(int pointR, int pointK, int newR, int newK, int[][] area){
+
+    private int[] balancedSearch(int pointR, int pointK, int newR, int newK, int[][] area) {
         int rowCheck = 0;
         int columnCheck = 0;
         while ((columnCheck < newK) && (rowCheck < newR)) {
-            while ((rowCheck < newR)&&(area[pointR + 1 + rowCheck][pointK + newK] > 0)  ) {
+            while ((rowCheck < newR) && (area[pointR + 1 + rowCheck][pointK + newK] > 0)) {
                 rowCheck++;
             }
-            while ( (columnCheck < newK)&&(area[pointR + newR][pointK + 1 + columnCheck] > 0)) {
+            while ((columnCheck < newK) && (area[pointR + newR][pointK + 1 + columnCheck] > 0)) {
                 columnCheck++;
             }
-            if( (columnCheck < newK)&&(rowCheck < newR)) {
+            if ((columnCheck < newK) && (rowCheck < newR)) {
                 newR--;
                 newK--;
 
@@ -124,7 +125,7 @@ public class SkyMap {
                 newK--;
                 rowCheck = 0;
                 columnCheck = 0;
-            }else if (columnCheck < newK) {
+            } else if (columnCheck < newK) {
                 newR--;
 
                 rowCheck = 0;
@@ -133,14 +134,15 @@ public class SkyMap {
         }
         return new int[]{pointR, pointK, pointR + newR, pointK + newK};
     }
-    private int[] bottomSearch(int pointR, int pointK, int newR, int newK, int[][] area){
+
+    private int[] bottomSearch(int pointR, int pointK, int newR, int newK, int[][] area) {
         int rowCheck = 0;
         int columnCheck = 0;
         while ((columnCheck < newK) && (rowCheck < newR)) {
-            while ((rowCheck < newR)&&(area[pointR + 1 + rowCheck][pointK + newK] > 0)  ) {
+            while ((rowCheck < newR) && (area[pointR + 1 + rowCheck][pointK + newK] > 0)) {
                 rowCheck++;
             }
-            while ( (columnCheck < newK)&&(area[pointR + newR][pointK + 1 + columnCheck] > 0)) {
+            while ((columnCheck < newK) && (area[pointR + newR][pointK + 1 + columnCheck] > 0)) {
                 columnCheck++;
             }
             if (rowCheck < newK) {
@@ -148,7 +150,7 @@ public class SkyMap {
 
                 rowCheck = 0;
                 columnCheck = 0;
-            }else if (columnCheck < newR) {
+            } else if (columnCheck < newR) {
                 newK--;
 
                 rowCheck = 0;
@@ -158,23 +160,23 @@ public class SkyMap {
         return new int[]{pointR, pointK, pointR + newR, pointK + newK};
 
     }
-    private int[] rightSearch(int pointR, int pointK, int newR, int newK, int[][] area){
+
+    private int[] rightSearch(int pointR, int pointK, int newR, int newK, int[][] area) {
         int rowCheck = 0;
         int columnCheck = 0;
         while ((columnCheck < newK) && (rowCheck < newR)) {
-            while ((rowCheck < newR)&&(area[pointR + 1 + rowCheck][pointK + newK] > 0)  ) {
+            while ((rowCheck < newR) && (area[pointR + 1 + rowCheck][pointK + newK] > 0)) {
                 rowCheck++;
             }
-            while ( (columnCheck < newK)&&(area[pointR + newR][pointK + 1 + columnCheck] > 0)) {
+            while ((columnCheck < newK) && (area[pointR + newR][pointK + 1 + columnCheck] > 0)) {
                 columnCheck++;
             }
             if (rowCheck < newR) {
                 newK--;
                 rowCheck = 0;
                 columnCheck = 0;
-            }else if (columnCheck < newK) {
+            } else if (columnCheck < newK) {
                 newR--;
-
                 rowCheck = 0;
                 columnCheck = 0;
             }
@@ -183,58 +185,71 @@ public class SkyMap {
     }
 
 
-        private int[] findBiggestRectangle (ArrayList < int[]>rectangleList){
-            int[] biggestRectangle = rectangleList.get(0);
-            int biggestRectangleSize = (Math.abs(biggestRectangle[0] - biggestRectangle[2])
-                    * Math.abs(biggestRectangle[1] - biggestRectangle[3]));
-            for (int[] rectangle : rectangleList) {
-                int rectangleSize = (Math.abs(rectangle[0] - rectangle[2]) * Math.abs(rectangle[1] - rectangle[3]));
-                if (rectangleSize > biggestRectangleSize) {
-                    biggestRectangle = rectangle;
-                    biggestRectangleSize = rectangleSize;
-                }
+    private int[] findBiggestRectangle(ArrayList<int[]> rectangleList) {
+        int[] biggestRectangle = rectangleList.get(0);
+        int biggestRectangleSize = (Math.abs(biggestRectangle[0] - biggestRectangle[2])
+                * Math.abs(biggestRectangle[1] - biggestRectangle[3]));
+        for (int[] rectangle : rectangleList) {
+            int rectangleSize = (Math.abs(rectangle[0] - rectangle[2]) * Math.abs(rectangle[1] - rectangle[3]));
+            if (rectangleSize > biggestRectangleSize) {
+                biggestRectangle = rectangle;
+                biggestRectangleSize = rectangleSize;
             }
-            System.out.println("___");
-
-            System.out.println(biggestRectangle[0]);
-            System.out.println(biggestRectangle[1]);
-
-            return biggestRectangle;
         }
+        System.out.println("___");
 
-    private int countObjects(int[] rectangle, int[][] area){
+        System.out.println(biggestRectangle[0]);
+        System.out.println(biggestRectangle[1]);
+
+        return biggestRectangle;
+    }
+
+    private int countObjects(int[] rectangle, int[][] area) {
         int objectCounter = 0;
         for (int r = rectangle[0]; r <= rectangle[2]; r++) {
             for (int k = rectangle[1]; k <= rectangle[3]; k++) {
-                objectCounter+= area[r][k];
-                resultTestMap[r][k]+=1;
+                objectCounter += area[r][k];
+                resultTestMap[r][k] += 1;
             }
         }
         //saveMapToImage(resultTestMap);
         return objectCounter;
     }
-    public static double calculateArea(int[] rectangle){
-        System.out.println("RA: "+rectangle[0]);
-        System.out.println("DEC2: "+rectangle[1]);
-        System.out.println("RA2: "+rectangle[2]);
-        System.out.println("DEC: "+rectangle[3]);
+
+    public static double calculateArea(int[] rectangle) {
+        System.out.println("RA: " + rectangle[0]);
+        System.out.println("DEC2: " + rectangle[1]);
+        System.out.println("RA2: " + rectangle[2]);
+        System.out.println("DEC: " + rectangle[3]);
         return (Math.toRadians(rectangle[2])
-                -Math.toRadians(rectangle[0]))
-                *(Math.sin(Math.toRadians(rectangle[1]))
-                -Math.sin(Math.toRadians(rectangle[3])))/3283;
+                - Math.toRadians(rectangle[0]))
+                * (Math.sin(Math.toRadians(rectangle[1]))
+                - Math.sin(Math.toRadians(rectangle[3]))) / 3283;
     }
-    public double getDensity(){
+
+    public double getDensity() {
         int[] rectangleFallOne = findBiggestRectangle(findRectangles(mapFallOne));
         int[] rectangleFallTwo = findBiggestRectangle(findRectangles(mapFallTwo));
         int[] rectangleSpring = findBiggestRectangle(findRectangles(mapSpring));
         double objectAmount = countObjects(rectangleFallOne, mapFallOne)
                 + countObjects(rectangleFallTwo, mapFallTwo)
                 + countObjects(rectangleSpring, mapSpring);
-        System.out.println("calosc"+(objectAmount));
+        System.out.println("calosc" + (objectAmount));
         double objectArea = calculateArea(rectangleFallOne)
                 + calculateArea(rectangleFallTwo)
                 + calculateArea(rectangleSpring);
-        System.out.println(objectAmount/objectArea);
-        return objectAmount/objectArea;
+        System.out.println(objectAmount / objectArea);
+        return objectAmount / objectArea;
+    }
+
+    public double getArea() {
+        int[] rectangleFallOne = findBiggestRectangle(findRectangles(mapFallOne));
+        int[] rectangleFallTwo = findBiggestRectangle(findRectangles(mapFallTwo));
+        int[] rectangleSpring = findBiggestRectangle(findRectangles(mapSpring));
+        double objectArea = calculateArea(rectangleFallOne)
+                + calculateArea(rectangleFallTwo)
+                + calculateArea(rectangleSpring);
+        System.out.println(objectArea);
+        return objectArea;
     }
 }

@@ -19,19 +19,18 @@ import java.util.concurrent.Executors;
 
 public class NeighborSearchObject {
     public static final String SEARCH_NN_CONFIG_NAME = "nn_config_file";
-    private final GaiaDataFrame gaiaDataFrame;
-    private final LotssDataFrame lotssDataFrame;
+    public final GaiaDataFrame gaiaDataFrame;
+    public final LotssDataFrame lotssDataFrame;
     private final int lenGaia;
-    private final int lenLotss;
+    final int lenLotss;
     double[] lotssDist;
     String[] lotssId;
-
     String[] closestNeightbourId;
     double[] closestNeightbourRa;
     double[] gaiaConvertedRa;
     double[] gaiaConvertedDec;
     double[] closestNeightbourDec;
-    double[] closestNeightbourDistSec ;
+    double[] closestNeightbourDistSec;
     double[] lotssRaE;
     double[] lotssDecE;
     double[] gaiaRaE;
@@ -47,9 +46,9 @@ public class NeighborSearchObject {
     double[] gaiaDec;
     double[] gaiaRa;
 
-    CountDownLatch latch ;
+    CountDownLatch latch;
 
-    public NeighborSearchObject(GaiaDataFrame gaiaDataFrame, LotssDataFrame lotssDataFrame)  {
+    public NeighborSearchObject(GaiaDataFrame gaiaDataFrame, LotssDataFrame lotssDataFrame) {
 
         this.gaiaDataFrame = gaiaDataFrame;
         this.lotssDataFrame = lotssDataFrame;
@@ -59,7 +58,7 @@ public class NeighborSearchObject {
         lotssId = lotssDataFrame.lotssSourceId;
         lotssRaE = lotssDataFrame.lotssRaE;
         lotssDecE = lotssDataFrame.lotssDecE;
-        closestNeightbourId= new String[lenLotss];
+        closestNeightbourId = new String[lenLotss];
         closestNeightbourRa = new double[lenLotss];
         gaiaConvertedRa = new double[lenLotss];
         gaiaConvertedDec = new double[lenLotss];
@@ -76,7 +75,7 @@ public class NeighborSearchObject {
         latch = new CountDownLatch(lenLotss);
         lotssDensity = new SkyMap(lotssDataFrame.lotssRa, lotssDataFrame.lotssDec).getDensity();
         //gaiaDensity = new SkyMap(gaiaRa,gaiaDec).getDensity();
-        outputTransformHelper = new ArrayList<>(){
+        outputTransformHelper = new ArrayList<>() {
             {
                 add(lotssId);
                 add(closestNeightbourId);
@@ -95,7 +94,8 @@ public class NeighborSearchObject {
         finalMethodOutput = new String[outputTransformHelper.size()][lenLotss];
 
     }
-    class taskForMultithread implements Runnable{
+
+    class taskForMultithread implements Runnable {
         int lotssNum;
 
         public taskForMultithread(int lotssNum) {
@@ -107,20 +107,21 @@ public class NeighborSearchObject {
             oneCalculationCycle(lotssNum);
         }
     }
-    public double[] dateLotss(double[] a, Double b, double[] c){
+
+    public double[] dateLotss(double[] a, Double b, double[] c) {
         int size = a.length;
-        double[]outputArray= new double[size];
-        for(int i = 0; i<size; i++){
-            outputArray[i]=((a[i]+((b-2016)*(c[i]/1000))/3600));
+        double[] outputArray = new double[size];
+        for (int i = 0; i < size; i++) {
+            outputArray[i] = ((a[i] + ((b - 2016) * (c[i] / 1000)) / 3600));
         }
         return (outputArray);
     }
 
-    public double getDensity(double density){
+    public double getDensity(double density, int lotssNum) {
         return (density);
     }
 
-    public void oneCalculationCycle(int lotssNum){
+    public void oneCalculationCycle(int lotssNum) {
         double[] gaiaPmra = gaiaDataFrame.gaiaPmra;
         double[] gaiaPmdec = gaiaDataFrame.gaiaPmdec;
         String[] gaiaSourceId = gaiaDataFrame.gaiaSourceId;
@@ -129,13 +130,13 @@ public class NeighborSearchObject {
         double lotss_obj_ra = lotssDataFrame.lotssRa[lotssNum];
         double lots_obj_dec = lotssDataFrame.lotssDec[lotssNum];
         double lotss_date = lotssDataFrame.lotssSourceDate[lotssNum];
-        double[] raGaiaToLotss =  dateLotss(gaiaRa, lotss_date, gaiaPmra);
+        double[] raGaiaToLotss = dateLotss(gaiaRa, lotss_date, gaiaPmra);
         double[] decGaiaToLotss = dateLotss(gaiaDec, lotss_date, gaiaPmdec);
         double[] partialResult = new double[lenGaia];
 
 
-        for (int j =0; j<lenGaia; j++){
-            partialResult[j] =(Math.sqrt(((Math.pow(((raGaiaToLotss[j]-lotss_obj_ra)*Math.cos(((decGaiaToLotss[j]*(Math.PI))/180))),2)+Math.pow(decGaiaToLotss[j]-lots_obj_dec,2)))));
+        for (int j = 0; j < lenGaia; j++) {
+            partialResult[j] = (Math.sqrt(((Math.pow(((raGaiaToLotss[j] - lotss_obj_ra) * Math.cos(((decGaiaToLotss[j] * (Math.PI)) / 180))), 2) + Math.pow(decGaiaToLotss[j] - lots_obj_dec, 2)))));
         }
 
         int lowestIndex = 0;
@@ -147,7 +148,6 @@ public class NeighborSearchObject {
             }
 
         }
-
 
 
         closestNeightbourId[lotssNum] = gaiaSourceId[lowestIndex];
@@ -163,15 +163,14 @@ public class NeighborSearchObject {
         //Czy coś robić z błędem
 
 
-
-        rootColumn[lotssNum] = Math.sqrt((((Math.pow((lotss_obj_ra- gaiaConvertedRa[lotssNum]),2))/12960000)/(Math.pow(lotssRaE[lotssNum],2)+Math.pow(gaiaRaEResults[lotssNum],2)))+(((Math.pow((lots_obj_dec- gaiaConvertedDec[lotssNum]),2))/12960000)/(Math.pow(lotssDecE[lotssNum],2)+Math.pow(gaiaDecEResults[lotssNum],2))));
-        rColumn[lotssNum]= Math.exp(-Math.PI*Math.pow(rootColumn[lotssNum],2)*Math.sqrt(Math.pow(lotssRaE[lotssNum],2)+Math.pow(gaiaRaEResults[lotssNum],2))*Math.sqrt(Math.pow(lotssDecE[lotssNum],2)+Math.pow(gaiaDecEResults[lotssNum],2))*getDensity(lotssDensity));
+        rootColumn[lotssNum] = Math.sqrt((((Math.pow((lotss_obj_ra - gaiaConvertedRa[lotssNum]), 2)) / 12960000) / (Math.pow(lotssRaE[lotssNum], 2) + Math.pow(gaiaRaEResults[lotssNum], 2))) + (((Math.pow((lots_obj_dec - gaiaConvertedDec[lotssNum]), 2)) / 12960000) / (Math.pow(lotssDecE[lotssNum], 2) + Math.pow(gaiaDecEResults[lotssNum], 2))));
+        rColumn[lotssNum] = Math.exp(-Math.PI * Math.pow(rootColumn[lotssNum], 2) * Math.sqrt(Math.pow(lotssRaE[lotssNum], 2) + Math.pow(gaiaRaEResults[lotssNum], 2)) * Math.sqrt(Math.pow(lotssDecE[lotssNum], 2) + Math.pow(gaiaDecEResults[lotssNum], 2)) * getDensity(lotssDensity, lotssNum));
         latch.countDown();
     }
 
-    public ResultPojo searchForNeightbor() throws InterruptedException  {
-        String[] headers = new String[]{"lotssId","closestNeightbourId","closestNeightbourRa","closestNeightbourDec",
-        "gaiaConvertedRa","gaiaConvertedDec","closestNeightbourDistSec","lotssRaE","lotssDecE","rootColumn","rColumn"};
+    public ResultPojo searchForNeightbor() throws InterruptedException {
+        String[] headers = new String[]{"lotssId", "closestNeightbourId", "closestNeightbourRa", "closestNeightbourDec",
+                "gaiaConvertedRa", "gaiaConvertedDec", "closestNeightbourDistSec", "lotssRaE", "lotssDecE", "rootColumn", "rColumn"};
         ExecutorService executor = Executors./*.newSingleThreadExecutor();*/newFixedThreadPool(Runtime.getRuntime().availableProcessors());
         //while(latch.getCount()!=0) {
         for (int lotssNum1 = 0; lotssNum1 < lenLotss; lotssNum1++) {
@@ -181,21 +180,21 @@ public class NeighborSearchObject {
 
         //}
         //latch.await();
-       while(latch.getCount()!=0) {
-            System.out.print("\r"+ "" +String.valueOf(latch.getCount()));
+        while (latch.getCount() != 0) {
+            System.out.print("\r" + "" + String.valueOf(latch.getCount()));
         }
 
         executor.shutdown();
         System.out.println(closestNeightbourId[2]);
 
-        for(int i =0; i<outputTransformHelper.size();i++) {
+        for (int i = 0; i < outputTransformHelper.size(); i++) {
             Object object = outputTransformHelper.get(i);
             if (object instanceof double[]) {
                 double[] outputTemp = (double[]) object;
                 finalMethodOutput[i] = Arrays.stream(outputTemp)
                         .mapToObj(d -> Double.toString(d))
                         .toArray(String[]::new);
-            }else{
+            } else {
                 String[] outputTemp = (String[]) object;
                 finalMethodOutput[i] = outputTemp;
             }

@@ -17,12 +17,13 @@
         <gaia_pmdec>pmdec</gaia_pmdec>
         <gaia_ra_e>ra_error</gaia_ra_e>
         <gaia_dec_e>dec_error</gaia_dec_e>
+        <gaia_parallax>parallax</gaia_parallax>
     </gaia_table_scheme>
     <nn_config_file>
         <input_name_lotss>input_gaia.csv</input_name_lotss>
         <input_name_gaia>input_lotss.csv</input_name_gaia>
         <output_name>output.csv</output_name>
         <if_proper_motion_correction>true</if_proper_motion_correction>
-        <use_second_version>true</use_second_version>
+        <if_modified_density>true</if_modified_density>
     </nn_config_file>
 </configuration>

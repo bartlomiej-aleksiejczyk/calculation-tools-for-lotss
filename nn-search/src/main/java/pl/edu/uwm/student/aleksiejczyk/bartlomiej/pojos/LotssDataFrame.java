@@ -8,7 +8,7 @@ public class LotssDataFrame {
                           ArrayList<String> lotssSourceId,
                           ArrayList<Double> lotssRaE,
                           ArrayList<Double> lotssDecE,
-                          double lotssParallax) {
+                          ArrayList<Double> lotssParallax) {
         this.lotssRa = lotssRa.stream().mapToDouble(Double::doubleValue).toArray();
         this.lotssDec = lotssDec.stream().mapToDouble(Double::doubleValue).toArray();
         this.lotssSourceDate = lotssSourceDate.stream().mapToDouble(Double::doubleValue).toArray();
@@ -16,7 +16,7 @@ public class LotssDataFrame {
         this.lotssRaE = lotssRaE.stream().mapToDouble(Double::doubleValue).toArray();
         this.lotssDecE = lotssDecE.stream().mapToDouble(Double::doubleValue).toArray();
         this.lotssDecE = lotssDecE.stream().mapToDouble(Double::doubleValue).toArray();
-        this.lotssParallax = lotssParallax;
+        this.lotssParallax =  lotssParallax.stream().mapToDouble(Double::doubleValue).toArray();
     }
 
     public double[] lotssRa;
@@ -25,6 +25,6 @@ public class LotssDataFrame {
     public String[] lotssSourceId;
     public double[] lotssRaE;
     public double[] lotssDecE;
-    public double lotssParallax;
+    public double[] lotssParallax;
 
 }
