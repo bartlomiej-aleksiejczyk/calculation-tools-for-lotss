@@ -2,6 +2,7 @@ package pl.edu.uwm.student.aleksiejczyk.bartlomiej;
 import org.xml.sax.SAXException;
 import pl.edu.uwm.student.aleksiejczyk.bartlomiej.toollib.xml.XMLHeaderSchema;
 import tech.tablesaw.api.Table;
+import tech.tablesaw.columns.Column;
 
 import javax.xml.parsers.ParserConfigurationException;
 import java.io.IOException;
@@ -24,26 +25,22 @@ public class Main {
         Table firstTable = Table.read().csv(firstCsvName);
         Table secondTable = Table.read().csv(secondCsvName);
 
-        /*for (String columnName : firstTable.columnNames()) {
-            if (secondTable.columnNames().contains(columnName) && !columnName.equals(key2)) {
+        for (String columnName : firstTable.columnNames()) {
+            if (secondTable.columnNames().contains(columnName) && !columnName.equals(secondKey)) {
                 Column<?> duplicateColumn = secondTable.column(columnName);
-                duplicateColumn.setName(columnName + "_2"); // Appends "_2" to the duplicate column name
+                duplicateColumn.setName(columnName + "_2");
             }
-        }*/
+        }
         if (firstTable.columnNames().contains("C0")) {
             firstTable.removeColumns("C0");
         }
 
-        // Check if 'C0' column exists in secondTable, and remove it if it does
         if (secondTable.columnNames().contains("C0")) {
             secondTable.removeColumns("C0");
         }
 
-        // Perform an inner join on the tables using the keys
         Table combinedCsvTable = firstTable.joinOn(firstKey).inner(secondTable, secondKey);
 
-        System.out.println("BAJO JAJO");
-        // Write the result to a new CSV file using Apache Commons CSV
         combinedCsvTable.write().csv(outputCsvName);
     }
 }

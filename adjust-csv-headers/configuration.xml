@@ -1,6 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <configuration>
+    <csv_file_configuration>
+        <input_filename>unconverted_input.csv</input_filename>
+        <output_filename>converted_output.csv</output_filename>
+    </csv_file_configuration>
     <csv_input_schema>
+        <!--unusual convention - <ORIGINAL_COLUMN_NAME>NEW_COLUMN_NAME</ORIGINAL_COLUMN_NAME> -->
+        <ra_dates>ra</ra_dates>
+        <DEC_1>dec</DEC_1>
         <Source_Name>source_id</Source_Name>
         <RA>ra</RA>
         <E_RA>ra_error</E_RA>

@@ -12,13 +12,16 @@ import java.io.*;
 import java.util.Map;
 
 public class CSVData {
-    private final static String INPUT_PATH = "unconverted_input.csv";
-    private final static String OUTPUT_PATH = "converted_output.csv";
+
     private final static String SCHEMA_TAG_NAME = "csv_input_schema";
+    private final static String CONFIG_TAG_NAME = "csv_file_configuration";
 
 
     public static void convertCSVHeaders() throws IOException, ParserConfigurationException, SAXException {
-        Reader input = new FileReader(INPUT_PATH);
+        Map<String, String> config = XMLHeaderSchema.readHeaders(CONFIG_TAG_NAME);
+
+
+        Reader input = new FileReader(config.get("input_filename"));
         CSVFormat.Builder builder =  CSVFormat.Builder.create();
         CSVFormat csvFormat = builder.setHeader().setSkipHeaderRecord(true).build();
         CSVParser parser = new CSVParser(input, csvFormat);
@@ -30,10 +33,11 @@ public class CSVData {
         newHeaders.forEach((key, value) -> System.out.println(key + " : " + value));
 
         CSVFormat csvFormatHeaders =  CSVFormat.Builder.create().setHeader(HeaderUtils.replaceKeys(headersList, newHeaders)).build();
-        try(            Reader copiedInput = new FileReader(INPUT_PATH);
-                        Writer output = new FileWriter(OUTPUT_PATH);
+        try(            Reader copiedInput = new FileReader(config.get("input_filename"));
+                        Writer output = new FileWriter(config.get("output_filename"));
             CSVPrinter csvPrinter = new CSVPrinter(output, csvFormatHeaders)){
             for (CSVRecord record : csvFormat.parse(input)) {
+                System.out.println(record);
                 csvPrinter.printRecord(record);
             }
         }
