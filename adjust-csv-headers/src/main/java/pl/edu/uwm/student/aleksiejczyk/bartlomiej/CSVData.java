@@ -30,14 +30,12 @@ public class CSVData {
         String[] headersList = headers.keySet().toArray(new String[0]);
 
         Map<String, String> newHeaders = XMLHeaderSchema.readHeaders(SCHEMA_TAG_NAME);
-        newHeaders.forEach((key, value) -> System.out.println(key + " : " + value));
 
         CSVFormat csvFormatHeaders =  CSVFormat.Builder.create().setHeader(HeaderUtils.replaceKeys(headersList, newHeaders)).build();
         try(            Reader copiedInput = new FileReader(config.get("input_filename"));
                         Writer output = new FileWriter(config.get("output_filename"));
             CSVPrinter csvPrinter = new CSVPrinter(output, csvFormatHeaders)){
             for (CSVRecord record : csvFormat.parse(input)) {
-                System.out.println(record);
                 csvPrinter.printRecord(record);
             }
         }

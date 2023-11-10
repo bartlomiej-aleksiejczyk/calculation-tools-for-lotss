@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <configuration>
     <lots_table_scheme>
-        <lotss_source_id>input.csv</lotss_source_id>
-        <lotss_ra>output.csv</lotss_ra>
-        <lotss_dec>date</lotss_dec>
+        <lotss_source_id>source_id</lotss_source_id>
+        <lotss_ra>ra</lotss_ra>
+        <lotss_dec>dec</lotss_dec>
         <lotss_source_date>source_date</lotss_source_date>
-        <lotss_ra_e>e_ra</lotss_ra_e>
-        <lotss_dec_e>e_dec</lotss_dec_e>
+        <lotss_ra_e>ra_error</lotss_ra_e>
+        <lotss_dec_e>dec_error</lotss_dec_e>
         <lotss_parallax>parallax</lotss_parallax>
     </lots_table_scheme>
     <gaia_table_scheme>
@@ -20,8 +20,8 @@
         <gaia_parallax>parallax</gaia_parallax>
     </gaia_table_scheme>
     <nn_config_file>
-        <input_name_lotss>input_gaia.csv</input_name_lotss>
-        <input_name_gaia>input_lotss.csv</input_name_gaia>
+        <input_name_lotss>input_lotss.csv</input_name_lotss>
+        <input_name_gaia>input_gaia.csv</input_name_gaia>
         <output_name>output.csv</output_name>
         <if_proper_motion_correction>true</if_proper_motion_correction>
         <if_modified_density>true</if_modified_density>

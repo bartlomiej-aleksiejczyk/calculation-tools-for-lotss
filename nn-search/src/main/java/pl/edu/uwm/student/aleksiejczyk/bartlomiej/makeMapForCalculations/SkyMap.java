@@ -221,10 +221,7 @@ public class SkyMap {
         System.out.println("DEC2: " + rectangle[1]);
         System.out.println("RA2: " + rectangle[2]);
         System.out.println("DEC: " + rectangle[3]);
-        return (Math.toRadians(rectangle[2])
-                - Math.toRadians(rectangle[0]))
-                * (Math.sin(Math.toRadians(rectangle[1]))
-                - Math.sin(Math.toRadians(rectangle[3]))) / 3283;
+        return (Math.toRadians(rectangle[2]) - Math.toRadians(rectangle[0])) * (Math.sin(Math.toRadians(rectangle[1])) - Math.sin(Math.toRadians(rectangle[3])));
     }
 
     public double getDensity() {

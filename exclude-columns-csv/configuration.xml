@@ -6,8 +6,24 @@
     </file_configuration>
     <columns_to_exclude>
         <!-- Column names must be distinct -->
-        <col1>combined_output.csv</col1>
-        <col2>second_input.csv</col2>
-        <col3>RA_1</col3>
+        <col1>Peak_flux</col1>
+        <col2>E_Peak_flux</col2>
+        <col3>Total_flux</col3>
+        <col4>E_Total_flux</col4>
+        <col5>Maj</col5>
+        <col6>E_Maj</col6>
+        <col7>Min</col7>
+        <col8>E_Min</col8>
+        <col9>DC_Maj</col9>
+        <col10>E_DC_Maj</col10>
+        <col11>DC_Min</col11>
+        <col12>E_PA</col12>
+        <col13>DC_PA</col13>
+        <col14>E_DC_PA</col14>
+        <col15>Isl_rms</col15>
+        <col16>S_Code</col16>
+        <col17>Number_Pointings</col17>
+        <col18>Masked_Fraction</col18>
+        <col19>E_DC_Min</col19>
     </columns_to_exclude>
 </configuration>
