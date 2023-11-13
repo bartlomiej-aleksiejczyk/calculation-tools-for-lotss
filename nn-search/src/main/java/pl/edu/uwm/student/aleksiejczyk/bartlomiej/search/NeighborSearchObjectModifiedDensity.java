@@ -26,9 +26,7 @@ public class NeighborSearchObjectModifiedDensity extends NeighborSearchObject {
 
         int numberOfGreaterParallaxes = 0;
         if (indexOfGreaterOrEqualGaia < 0) {
-            // Calculate the insertion point by taking the absolute value of the result and subtracting 1
             int insertionPoint = Math.abs(indexOfGreaterOrEqualGaia) - 1;
-            // Subtract the insertion point from the length of the array to get the count
             numberOfGreaterParallaxes = super.lenLotss - insertionPoint;
         }
         return numberOfGreaterParallaxes / gaiaArea;
