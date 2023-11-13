@@ -21,7 +21,7 @@ public class NeighborSearchObject {
     public static final String SEARCH_NN_CONFIG_NAME = "nn_config_file";
     public final GaiaDataFrame gaiaDataFrame;
     public final LotssDataFrame lotssDataFrame;
-    private final int lenGaia;
+    public final int lenGaia;
     final int lenLotss;
     double[] lotssDist;
     String[] lotssId;
@@ -171,6 +171,7 @@ public class NeighborSearchObject {
     public ResultPojo searchForNeightbor() throws InterruptedException {
         String[] headers = new String[]{"lotssId", "closestNeightbourId", "closestNeightbourRa", "closestNeightbourDec",
                 "gaiaConvertedRa", "gaiaConvertedDec", "closestNeightbourDistSec", "lotssRaE", "lotssDecE", "rootColumn", "rColumn"};
+        // use virtual threads
         ExecutorService executor = Executors./*.newSingleThreadExecutor();*/newFixedThreadPool(Runtime.getRuntime().availableProcessors());
         //while(latch.getCount()!=0) {
         for (int lotssNum1 = 0; lotssNum1 < lenLotss; lotssNum1++) {

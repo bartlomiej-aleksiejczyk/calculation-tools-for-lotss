@@ -15,8 +15,8 @@ public class NeighborSearchObjectModifiedDensity extends NeighborSearchObject {
         super(gaiaDataFrame, lotssDataFrame);
         lotssParallax = lotssDataFrame.lotssParallax;
         gaiaParallax = gaiaDataFrame.gaiaParallax;
-        ;
-        Arrays.sort(gaiaParallax, 0, super.lenLotss);
+        System.out.println(gaiaParallax.length);
+        Arrays.sort(gaiaParallax, 0, super.lenGaia);
         gaiaArea = new SkyMap(super.gaiaDataFrame.gaiaRa, super.gaiaDataFrame.gaiaDec).getArea();
     }
 

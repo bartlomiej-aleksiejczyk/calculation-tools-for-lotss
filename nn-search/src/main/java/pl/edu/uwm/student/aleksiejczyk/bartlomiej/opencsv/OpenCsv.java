@@ -67,7 +67,7 @@ public class OpenCsv {
         Reader input1 = new FileReader(inputNameLotss);
         Iterable<CSVRecord> records1 = CSVFormat.EXCEL.withHeader().parse(input1);
         for (CSVRecord record1 : records1) {
-            
+            //Tutaj należy dodać warunki sprawdzajace jaki tryb programu jest uruchomiony i jeśli nie ma czytać dat to zamiast próbować zczytywać z csv to wstawiać jedynki
             lotssSourceId.add((record1.get(lotssSchema.get("lotss_source_id"))));
             lotssRa.add(Double.valueOf(record1.get(lotssSchema.get("lotss_ra"))));
             lotssDec.add(Double.valueOf(record1.get(lotssSchema.get("lotss_dec"))));
