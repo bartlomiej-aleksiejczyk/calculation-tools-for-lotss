@@ -8,6 +8,7 @@ import java.util.Arrays;
 
 public class NeighborSearchObjectModifiedDensity extends NeighborSearchObject {
     double[] lotssParallax;
+    double[] gaiaParallaxSorted;
     double[] gaiaParallax;
     double gaiaArea;
 
@@ -15,20 +16,23 @@ public class NeighborSearchObjectModifiedDensity extends NeighborSearchObject {
         super(gaiaDataFrame, lotssDataFrame);
         lotssParallax = lotssDataFrame.lotssParallax;
         gaiaParallax = gaiaDataFrame.gaiaParallax;
-        System.out.println(gaiaParallax.length);
-        Arrays.sort(gaiaParallax, 0, super.lenGaia);
+        gaiaParallaxSorted = gaiaDataFrame.gaiaParallax;
+        Arrays.sort(gaiaParallaxSorted, 0, super.lenGaia);
         gaiaArea = new SkyMap(super.gaiaDataFrame.gaiaRa, super.gaiaDataFrame.gaiaDec).getArea();
     }
 
     @Override
-    public double getDensity(double density, int lotssNum) {
-        int indexOfGreaterOrEqualGaia = Arrays.binarySearch(gaiaParallax, lotssParallax[lotssNum]);
-
+    public double getDensity(double density, int lotssNum, int lowestIndex) {
+        int indexOfGreaterOrEqualGaia = Arrays.binarySearch(gaiaParallaxSorted, gaiaParallax[lowestIndex]);
+        //Parallaxes should be sorted desc
         int numberOfGreaterParallaxes = 0;
         if (indexOfGreaterOrEqualGaia < 0) {
             int insertionPoint = Math.abs(indexOfGreaterOrEqualGaia) - 1;
-            numberOfGreaterParallaxes = super.lenLotss - insertionPoint;
+            numberOfGreaterParallaxes = super.lenGaia - insertionPoint;
+        } else {
+            numberOfGreaterParallaxes = super.lenGaia - indexOfGreaterOrEqualGaia;
         }
+
         return numberOfGreaterParallaxes / gaiaArea;
     }
 }

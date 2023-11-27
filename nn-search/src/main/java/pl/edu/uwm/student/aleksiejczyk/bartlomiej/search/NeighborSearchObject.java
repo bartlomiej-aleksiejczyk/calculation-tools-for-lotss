@@ -45,7 +45,7 @@ public class NeighborSearchObject {
     double lotssDensity;
     double[] gaiaDec;
     double[] gaiaRa;
-
+    double[] calculatedDensity;
     CountDownLatch latch;
 
     public NeighborSearchObject(GaiaDataFrame gaiaDataFrame, LotssDataFrame lotssDataFrame) {
@@ -74,10 +74,14 @@ public class NeighborSearchObject {
         rColumn = new double[lenLotss];
         latch = new CountDownLatch(lenLotss);
         lotssDensity = new SkyMap(lotssDataFrame.lotssRa, lotssDataFrame.lotssDec).getDensity();
+        calculatedDensity = new double[lenLotss];
+
         //gaiaDensity = new SkyMap(gaiaRa,gaiaDec).getDensity();
         outputTransformHelper = new ArrayList<>() {
             {
                 add(lotssId);
+                add(lotssDataFrame.lotssRa);
+                add(lotssDataFrame.lotssDec);
                 add(closestNeightbourId);
                 add(closestNeightbourRa);
                 add(closestNeightbourDec);
@@ -86,6 +90,7 @@ public class NeighborSearchObject {
                 add(closestNeightbourDistSec);
                 add(lotssRaE);
                 add(lotssDecE);
+                add(calculatedDensity);
                 add(rootColumn);
                 add(rColumn);
 
@@ -109,6 +114,7 @@ public class NeighborSearchObject {
     }
 
     public double[] dateLotss(double[] a, Double b, double[] c) {
+
         int size = a.length;
         double[] outputArray = new double[size];
         for (int i = 0; i < size; i++) {
@@ -117,7 +123,7 @@ public class NeighborSearchObject {
         return (outputArray);
     }
 
-    public double getDensity(double density, int lotssNum) {
+    public double getDensity(double density, int lotssNum, int lowestIndex) {
         return (density);
     }
 
@@ -128,15 +134,16 @@ public class NeighborSearchObject {
 
 
         double lotss_obj_ra = lotssDataFrame.lotssRa[lotssNum];
-        double lots_obj_dec = lotssDataFrame.lotssDec[lotssNum];
+        double lotss_obj_dec = lotssDataFrame.lotssDec[lotssNum];
         double lotss_date = lotssDataFrame.lotssSourceDate[lotssNum];
         double[] raGaiaToLotss = dateLotss(gaiaRa, lotss_date, gaiaPmra);
         double[] decGaiaToLotss = dateLotss(gaiaDec, lotss_date, gaiaPmdec);
         double[] partialResult = new double[lenGaia];
+        double localCalculatedDensity;
 
 
         for (int j = 0; j < lenGaia; j++) {
-            partialResult[j] = (Math.sqrt(((Math.pow(((raGaiaToLotss[j] - lotss_obj_ra) * Math.cos(((decGaiaToLotss[j] * (Math.PI)) / 180))), 2) + Math.pow(decGaiaToLotss[j] - lots_obj_dec, 2)))));
+            partialResult[j] = (Math.sqrt(((Math.pow(((raGaiaToLotss[j] - lotss_obj_ra) * Math.cos(((decGaiaToLotss[j] * (Math.PI)) / 180))), 2) + Math.pow(decGaiaToLotss[j] - lotss_obj_dec, 2)))));
         }
 
         int lowestIndex = 0;
@@ -160,19 +167,22 @@ public class NeighborSearchObject {
         closestNeightbourDistSec[lotssNum] = partialResult[lowestIndex];
         gaiaRaEResults[lotssNum] = gaiaRaE[lowestIndex];
         gaiaDecEResults[lotssNum] = gaiaDecE[lowestIndex];
+
+        localCalculatedDensity = getDensity(lotssDensity, lotssNum, lowestIndex);
+        calculatedDensity[lotssNum] = localCalculatedDensity;
         //Czy coś robić z błędem
 
-
-        rootColumn[lotssNum] = Math.sqrt((((Math.pow((lotss_obj_ra - gaiaConvertedRa[lotssNum]), 2)) / 12960000) / (Math.pow(lotssRaE[lotssNum], 2) + Math.pow(gaiaRaEResults[lotssNum], 2))) + (((Math.pow((lots_obj_dec - gaiaConvertedDec[lotssNum]), 2)) / 12960000) / (Math.pow(lotssDecE[lotssNum], 2) + Math.pow(gaiaDecEResults[lotssNum], 2))));
-        rColumn[lotssNum] = Math.exp(-Math.PI * Math.pow(rootColumn[lotssNum], 2) * Math.sqrt(Math.pow(lotssRaE[lotssNum], 2) + Math.pow(gaiaRaEResults[lotssNum], 2)) * Math.sqrt(Math.pow(lotssDecE[lotssNum], 2) + Math.pow(gaiaDecEResults[lotssNum], 2)) * getDensity(lotssDensity, lotssNum));
+        rootColumn[lotssNum] = Math.sqrt((((Math.pow((lotss_obj_ra - gaiaConvertedRa[lotssNum]), 2)) / 12960000) / (Math.pow(lotssRaE[lotssNum], 2) + Math.pow(gaiaRaEResults[lotssNum], 2))) + (((Math.pow((lotss_obj_dec - gaiaConvertedDec[lotssNum]), 2)) / 12960000) / (Math.pow(lotssDecE[lotssNum], 2) + Math.pow(gaiaDecEResults[lotssNum], 2))));
+        rColumn[lotssNum] = Math.exp(-Math.PI * Math.pow(rootColumn[lotssNum], 2) * Math.sqrt(Math.pow(lotssRaE[lotssNum], 2) + Math.pow(gaiaRaEResults[lotssNum], 2)) * Math.sqrt(Math.pow(lotssDecE[lotssNum], 2) + Math.pow(gaiaDecEResults[lotssNum], 2)) * localCalculatedDensity);
         latch.countDown();
     }
 
     public ResultPojo searchForNeightbor() throws InterruptedException {
-        String[] headers = new String[]{"lotssId", "closestNeightbourId", "closestNeightbourRa", "closestNeightbourDec",
-                "gaiaConvertedRa", "gaiaConvertedDec", "closestNeightbourDistSec", "lotssRaE", "lotssDecE", "rootColumn", "rColumn"};
+        String[] headers = new String[]{"lotssId", "lotssRa", "lotssDec", "closestNeightbourId", "closestNeightbourRa", "closestNeightbourDec",
+                "gaiaConvertedRa", "gaiaConvertedDec", "closestNeightbourDistSec", "lotssRaE", "lotssDecE", "calculatedDensity", "rootColumn", "rColumn"};
         // use virtual threads
-        ExecutorService executor = Executors./*.newSingleThreadExecutor();*/newFixedThreadPool(Runtime.getRuntime().availableProcessors());
+        ExecutorService executor = Executors./*.newSingleThreadExecutor();newFixedThreadPool(Runtime.getRuntime().availableProcessors());*/newVirtualThreadPerTaskExecutor();
+
         //while(latch.getCount()!=0) {
         for (int lotssNum1 = 0; lotssNum1 < lenLotss; lotssNum1++) {
             executor.execute(new taskForMultithread(lotssNum1));
@@ -193,7 +203,7 @@ public class NeighborSearchObject {
             if (object instanceof double[]) {
                 double[] outputTemp = (double[]) object;
                 finalMethodOutput[i] = Arrays.stream(outputTemp)
-                        .mapToObj(d -> Double.toString(d))
+                        .mapToObj(Double::toString)
                         .toArray(String[]::new);
             } else {
                 String[] outputTemp = (String[]) object;

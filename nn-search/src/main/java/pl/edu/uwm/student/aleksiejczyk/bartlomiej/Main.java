@@ -29,11 +29,11 @@ public class Main {
         LotssDataFrame lotssDataFrame = getLotssDataFrame();
         NeighborSearchObject neighborSearchObject;
 
-        if (isCorrectionTurnedOn && isModifiedDensity) {
+        if (!isCorrectionTurnedOn && isModifiedDensity) {
             neighborSearchObject = new NeighborSearchObjectNoPmCorrectionModifiedDensity(gaiaDataFrame, lotssDataFrame);
         }  else if (isModifiedDensity) {
             neighborSearchObject = new NeighborSearchObjectModifiedDensity(gaiaDataFrame, lotssDataFrame);
-        } else if (isCorrectionTurnedOn) {
+        } else if (!isCorrectionTurnedOn) {
             neighborSearchObject = new NeighborSearchObjectNoPmCorrection(gaiaDataFrame, lotssDataFrame);
         } else {
             neighborSearchObject = new NeighborSearchObject(gaiaDataFrame, lotssDataFrame);
